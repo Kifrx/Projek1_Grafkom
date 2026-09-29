@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tugas Grafika Komputer - Rekonstruksi Objek 2D WebGL</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #1e1e1e;
+        color: #fff;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+      }
+      h1 {
+        font-size: 20px;
+        margin-bottom: 5px;
+      }
+      p {
+        font-size: 14px;
+        color: #aaa;
+        margin-bottom: 15px;
+      }
+
+      .container {
+        display: flex;
+        gap: 20px;
+        background: #2a2a2a;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      }
+
+      .canvas-section {
+        position: relative;
+      }
+
+      canvas {
+        border: 2px solid #444;
+        border-radius: 4px;
+        background-color: #a4d8ec; /* Warna Langit */
+        display: block;
+      }
+
+      /* HUD Info Kiri Atas Canvas */
+      #hud {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 12px;
+        line-height: 1.4;
+        pointer-events: none;
+      }
+
+      .reference-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .reference-section h3 {
+        font-size: 14px;
+        margin-bottom: 10px;
+        color: #ddd;
+      }
+      .reference-section img {
+        width: 400px;
+        height: auto;
+        border: 2px solid #444;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Tugas Grafika Komputer: Rekonstruksi Gambar 2D & Animasi</h1>
+    <p>
+      Topik: Primitif Grafis, Transformasi Geometri (Mat3 TRS), dan Animasi
+      WebGL Murni
+    </p>
+
+    <div class="container">
+      <!-- Section Canvas WebGL -->
+      <div class="canvas-section">
+        <canvas id="glCanvas" width="800" height="550"></canvas>
+      </div>
+
+      <!-- Gambar Referensi Asli -->
+      <div class="reference-section">
+        <h3>Gambar Referensi:</h3>
+        <!-- Tempatkan file gambar referensi kamu dengan nama reference.jpg di folder yang sama -->
+        <img src="reference.jpg" alt="Gambar Referensi" id="refImage" />
+      </div>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
