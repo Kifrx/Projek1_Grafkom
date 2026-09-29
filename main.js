@@ -158,14 +158,14 @@ function drawTree(x, y, scale = 1.0) {
     drawShape(circleShape, leafM, cTreeLeaf);
   });
   
-  // Mata Pohon senyum (khusus untuk pohon besar di kanan)
+  // Mata Pohon senyum 
   if (scale > 0.8) {
     drawShape(circleShape, createTRSMatrix(-0.06, 0.38 * scale, 0, 0.02, 0.02, parent), cBlack);
     drawShape(circleShape, createTRSMatrix(0.06, 0.38 * scale, 0, 0.02, 0.02, parent), cBlack);
   }
 }
 
-function drawEnvironment() {
+function drawEnvironment(seconds) {
   // Padang Rumput
   const groundM = createTRSMatrix(0, -0.6, 0, 4.0, 0.8);
   drawShape(rectShape, groundM, cGrass);
@@ -175,14 +175,17 @@ function drawEnvironment() {
   drawShape(circleShape, createTRSMatrix(-0.7, -0.2, 0, 0.4, 0.3), cBush);
   drawShape(circleShape, createTRSMatrix(0.8, -0.2, 0, 0.7, 0.5), cBush);
   drawShape(circleShape, createTRSMatrix(1.2, -0.25, 0, 0.5, 0.3), cBush);
+  drawShape(circleShape, createTRSMatrix(1.2, -0.25, 0, 0.5, 0.3), cBush);
 
-  // Matahari
-  const sunM = createTRSMatrix(0.25, 0.75, 0, 0.3, 0.3);
+  // Matahari (Bergerak Kiri-Kanan)
+  const sunX = 0.25 + Math.sin(seconds * 1.5) * 0.4;
+  const sunY = 0.75;
+
+  const sunM = createTRSMatrix(sunX, sunY, 0, 0.3, 0.3);
   drawShape(circleShape, sunM, cSun);
-  // Mata Matahari
-  drawShape(circleShape, createTRSMatrix(0.2, 0.77, 0, 0.02, 0.02), cBlack);
-  drawShape(circleShape, createTRSMatrix(0.3, 0.77, 0, 0.02, 0.02), cBlack);
 }
+
+
 
 function drawBoy(x, y, seconds) {
   const p = Mat3.translation(x, y);
@@ -190,15 +193,15 @@ function drawBoy(x, y, seconds) {
   // Animasi tendang kaki kanan
   const kickAngle = Math.sin(seconds * 4.0) * 15 + 25; 
 
-  // Kaki Kiri (Diam) - Diperbaiki
+  // Kaki Kiri (Diam) 
   const legLeft = createTRSMatrix(-0.05, -0.25, 0, 0.05, 0.15, p);
   drawShape(rectShape, legLeft, cSkin);
   const sockLeft = createTRSMatrix(-0.05, -0.32, 0, 0.06, 0.04, p); // Kaos kaki
   drawShape(rectShape, sockLeft, cWhite);
-  const shoeLeft = createTRSMatrix(-0.08, -0.36, 0, 0.12, 0.06, p); // Sepatu lebih panjang
+  const shoeLeft = createTRSMatrix(-0.08, -0.36, 0, 0.12, 0.06, p); // Sepatu 
   drawShape(rectShape, shoeLeft, cShoe);
 
-  // Kaki Kanan (Menendang) - Diperbaiki
+  // Kaki Kanan (Menendang) 
   const legPivot = Mat3.multiply(p, Mat3.translation(0.05, -0.15));
   const legRight = createTRSMatrix(0.06, -0.08, kickAngle, 0.05, 0.15, legPivot);
   drawShape(rectShape, legRight, cSkin);
@@ -235,7 +238,7 @@ function drawBoy(x, y, seconds) {
   // Lengan Kanan
   const armR = createTRSMatrix(0.16, 0.0, 30, 0.05, 0.16, p);
   drawShape(rectShape, armR, cShirt);
-  drawShape(circleShape, createTRSMatrix(0.22, 0.05, 0, 0.06, 0.06, p), cSkin);
+  drawShape(circleShape, createTRSMatrix(0.21, -0.08, 0, 0.06, 0.06, p), cSkin);
 
   // Kepala & Rambut
   const head = createTRSMatrix(0, 0.22, 0, 0.35, 0.35, p);
@@ -246,7 +249,7 @@ function drawBoy(x, y, seconds) {
   // Mata & Senyum
   drawShape(circleShape, createTRSMatrix(-0.06, 0.22, 0, 0.02, 0.02, p), cBlack);
   drawShape(circleShape, createTRSMatrix(0.06, 0.22, 0, 0.02, 0.02, p), cBlack);
-  drawShape(rectShape, createTRSMatrix(0.0, 0.15, 0, 0.05, 0.01, p), cBlack); // Mulut senyum simpel
+  drawShape(rectShape, createTRSMatrix(0.0, 0.15, 0, 0.05, 0.01, p), cBlack); // Mulut senyum
 }
 
 function drawDog(x, y, seconds) {
@@ -254,8 +257,8 @@ function drawDog(x, y, seconds) {
   const tailAngle = Math.sin(seconds * 10.0) * 15 - 30;
 
   // Ekor
-  const tail = createTRSMatrix(0.2, 0.02, tailAngle, 0.12, 0.03, p);
-  drawShape(rectShape, tail, cWhite);
+  const tail = createTRSMatrix(0.17, 0.06, 90, 0.12, 0.03, p);
+  drawShape(rectShape, tail, cSkin);
 
   // Badan & Kaki
   const body = createTRSMatrix(0, -0.05, 0, 0.35, 0.18, p);
@@ -269,7 +272,11 @@ function drawDog(x, y, seconds) {
   // Kepala
   const head = createTRSMatrix(-0.18, 0.05, 0, 0.2, 0.2, p);
   drawShape(circleShape, head, cSkin);
-  const ear = createTRSMatrix(-0.12, 0.08, -20, 0.06, 0.15, p);
+
+  //const earScaleY = Math.sin(seconds * 5.0) * 0.15;
+
+  // Membuat telinga yang mengalami flip/skala pada sumbu Y
+  const ear = createTRSMatrix(-0.12, 0.08, -20, 0.06, 0.12, p);
   drawShape(rectShape, ear, cDogSpot);
 
   // Mata & Hidung
@@ -286,6 +293,28 @@ function drawBall(x, y) {
   drawShape(circleShape, createTRSMatrix(-0.05, -0.06, 0, 0.04, 0.04, p), cRed);
 }
 
+// Bunga
+function drawFlower(x, y) {
+  const parent = Mat3.translation(x, y);
+
+  // Tangkai
+  const stem = createTRSMatrix(0, -0.04, 0, 0.01, 0.08, parent);
+  drawShape(rectShape, stem, [0.2, 0.6, 0.2, 1.0]);
+
+  // Kelopak
+  const center = createTRSMatrix(0, 0, 0, 0.03, 0.03, parent);
+  drawShape(circleShape, center, [0.95, 0.8, 0.1, 1.0]);
+
+  for (let i = 0; i < 4; i++) {
+    const angle = i * 90;
+    const rad = degToRad(angle);
+    const px = Math.cos(rad) * 0.025;
+    const py = Math.sin(rad) * 0.025;
+    const petal = createTRSMatrix(px, py, 0, 0.025, 0.025, parent);
+    drawShape(circleShape, petal, [0.9, 0.4, 0.5, 1.0]);
+  }
+}
+
 // ==========================================
 // 6. RENDER LOOP 
 // ==========================================
@@ -296,17 +325,27 @@ function render(time) {
   gl.clear(gl.COLOR_BUFFER_BIT);
 
   // Gambar lingkungan
-  drawEnvironment();
+  drawEnvironment(seconds);
+  drawFlower(-0.8, -0.35);
+  drawFlower(0.4, -0.35);
+  drawFlower(-1, -0.55);
+  drawFlower(0.84, -0.75);
+  drawFlower(0.4, -0.95);
   
   // Render pohon dengan fungsi kluster daun
-  drawTree(-1.1, 0.1, 0.9);
+  drawTree(-1.35, -0.30, 1.8);
   drawTree(0.7, 0.0, 0.7);
   drawTree(1.1, 0.1, 1.0);
+
+  drawShape(circleShape, createTRSMatrix(-1.25, -0.88, 0, 0.8, 0.35), cBush);
+  drawShape(circleShape, createTRSMatrix(-1.45, -0.88, 0, 0.45, 0.53), cBush);
   
   // Render Karakter
   drawBoy(-0.4, -0.1, seconds);
   drawBall(0.1, -0.3);
   drawDog(0.8, -0.3, seconds);
+
+  
 
   requestAnimationFrame(render);
 }

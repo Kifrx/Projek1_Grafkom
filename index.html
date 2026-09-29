@@ -21,11 +21,13 @@
       }
       h1 {
         font-size: 22px;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
 
       .container {
         display: flex;
+        flex-direction: column;
+        align-items: center;
         gap: 20px;
         background: #fff;
         padding: 15px;
@@ -33,24 +35,70 @@
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
       }
 
-      .canvas-section {
-        position: relative;
+      .canvas-section,
+      .reference-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+
+      .canvas-section h2,
+      .reference-section h2 {
+        font-size: 16px;
+        margin-bottom: 8px;
+        color: #555;
       }
 
       canvas {
         border: 2px solid #ccc;
         border-radius: 4px;
-        background-color: #ffffff; /* Langit putih sesuai gambar asli */
+        background-color: #ffffff;
+        display: block;
+      }
+
+      /* Wrapper untuk merapikan */
+      .img-wrapper {
+        width: 100%;
+        max-width: 800px;
+        height: 550px;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fff;
+      }
+
+      /* Styling gambar referens*/
+      .reference-section img {
+        width: 101%;
+        height: 101%;
+        object-fit: cover;
         display: block;
       }
     </style>
   </head>
   <body>
     <h1>WebGL: Anak Bermain Bola & Anjing</h1>
+    <h3>Syah Amin Zikri (5025241197)</h3>
+    <h3>Khairan Cherokee Musthofa (5025241215)</h3>
 
+    <br />
     <div class="container">
+      <!-- Section Canvas WebGL (Atas) -->
       <div class="canvas-section">
+        <h2>Hasil Canvas WebGL</h2>
         <canvas id="glCanvas" width="800" height="550"></canvas>
+      </div>
+
+      <!-- Section Gambar Referensi (Bawah) -->
+      <div class="reference-section">
+        <h2>Gambar Referensi</h2>
+        <div class="img-wrapper">
+          <img src="ref.jpeg" alt="Gambar Referensi" />
+        </div>
       </div>
     </div>
 
